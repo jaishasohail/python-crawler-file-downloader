@@ -1,0 +1,52 @@
+{
+ "base_url": "https://example.com",
+ "start_urls": [
+ "https://example.com/downloads/"
+ ],
+ "max_depth": 1,
+ "allowed_file_types": [
+ ".pdf",
+ ".csv",
+ ".zip"
+ ],
+ "download_dir": "data/downloads",
+ "log_dir": "data/logs",
+ "concurrent_downloads": 4,
+ "timeout": 30,
+ "auth": {
+ "login_url": null,
+ "username_field": "username",
+ "password_field": "password",
+ "username": null,
+ "password": null,
+ "headers": {
+ "User-Agent": "PythonCrawlerFileDownloader/1.0"
+ },
+ "cookies": {},
+ "extra_payload": {},
+ "timeout": 30
+ }
+}
+
+python-crawler-file-downloader/docker/Dockerfile
+dockerfileFROM python:3.11-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY src ./src
+COPY data ./data
+
+# Default command uses the example configuration.
+CMD ["python", "src/main.py", "--config", "src/config/settings.example.json"]
+
+python-crawler-file-downloader/data/downloads/.keep
+textPlaceholder file to keep the downloads directory in version control.
+
+python-crawler-file-downloader/data/logs/.keep
+textPlaceholder file to keep the logs directory in version control.
